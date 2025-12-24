@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDGhost - Digital Solutions by SG KOMPUTER</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Animation Library CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* --- CORE VARIABLES --- */
+        :root {
+            --neon-green: #00ff9d;
+            --neon-blue: #00bcd4;
+            --bg-dark: #050505;
+            --glass-bg: rgba(20, 20, 20, 0.7);
+            --border-light: rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- GLOBAL STYLE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--bg-dark);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* --- BACKGROUND ANIMATION (CYBER GRID) --- */
+        .cyber-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                linear-gradient(rgba(0, 255, 157, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 157, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center center;
+            z-index: -1;
+            perspective: 500px;
+            animation: moveGrid 20s linear infinite;
+        }
+
+        @keyframes moveGrid {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(50px); }
+        }
+
+        /* --- NAVBAR --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            position: fixed;
+            width: 100%;
+            z-index: 999;
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+            text-transform: uppercase;
+            position: relative;
+            letter-spacing: 2px;
+        }
+
+        /* Glitch Effect pada Logo */
+        .logo::before, .logo::after {
+            content: 'EDGhost';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+        }
+        .logo::before {
+            left: 2px;
+            text-shadow: -1px 0 red;
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+            clip-path: inset(0 0 0 0);
+        }
+        .logo::after {
+            left: -2px;
+            text-shadow: -1px 0 blue;
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+            clip-path: inset(0 0 0 0);
+        }
+
+        @keyframes glitch-anim-1 {
+            0% { clip-path: inset(20% 0 80% 0); }
+            20% { clip-path: inset(60% 0 10% 0); }
+            100% { clip-path: inset(10% 0 50% 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip-path: inset(10% 0 60% 0); }
+            20% { clip-path: inset(80% 0 5% 0); }
+            100% { clip-path: inset(30% 0 20% 0); }
+        }
+
+        .btn-nav {
+            padding: 10px 25px;
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            border-radius: 4px;
+            font-weight: 700;
+            transition: 0.3s;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+        }
+        .btn-nav:hover {
+            background: var(--neon-green);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-green);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .typewriter {
+            font-size: 1.5rem;
+            color: #ccc;
+            margin-bottom: 40px;
+            font-family: 'Courier New', monospace;
+            min-height: 1.5em;
+        }
+
+        .btn-glow {
+            display: inline-block;
+            padding: 15px 40px;
+            background: transparent;
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            border: 2px solid var(--neon-blue);
+            position: relative;
+            overflow: hidden;
+            transition: 0.4s;
+            text-decoration: none;
+            z-index: 1;
+        }
+
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+            transition: 0.4s;
+            z-index: -1;
+        }
+
+        .btn-glow:hover::before {
+            left: 100%;
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 20px var(--neon-blue);
+            border-color: var(--neon-green);
+        }
+
+        /* --- SERVICES SECTION --- */
+        .section {
+            padding: 100px 8%;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--glass-bg);
+            padding: 40px 30px;
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--neon-green);
+            box-shadow: 0 10px 30px rgba(0, 255, 157, 0.1);
+        }
+
+        .icon-box {
+            font-size: 3.5rem;
+            color: var(--neon-green);
+            margin-bottom: 25px;
+        }
+
+        .service-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .service-card p {
+            color: #aaa;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 5px 12px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: var(--neon-blue);
+            border: 1px solid rgba(0, 188, 212, 0.3);
+        }
+
+        /* --- FEATURES STRIP --- */
+        .features-strip {
+            background: linear-gradient(90deg, #000, #111, #000);
+            padding: 50px 0;
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            text-align: center;
+        }
+
+        .feature-item {
+            margin: 20px;
+        }
+        .feature-item i {
+            color: var(--neon-blue);
+            margin-right: 10px;
+        }
+        .feature-item span {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 60px 8%;
+            background: #020202;
+            text-align: center;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .footer-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .shop-name {
+            color: var(--neon-green);
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .contact-btn {
+            background: #25d366;
+            color: #fff;
+            padding: 10px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+        }
+        .contact-btn:hover { background: #128c7e; transform: scale(1.05); }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            nav { padding: 20px; }
+            .logo { font-size: 1.5rem; }
+            .features-strip { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Grid Animation -->
+    <div class="cyber-bg"></div>
+
+    <!-- Navigasi -->
+    <nav data-aos="fade-down">
+        <div class="logo">EDGhost</div>
+        <a href="https://wa.me/6282367136420?text=Halo%20SG%20KOMPUTER" class="btn-nav">
+            HUBUNGI KAMI
+        </a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content" data-aos="zoom-in">
+            <h1>BUAT APLIKASI <br><span class="gradient-text">TANPA BATAS</span></h1>
+            
+            <!-- Typewriter Text -->
+            <div class="typewriter" id="typewriter"></div>
+
+            <p style="color: #888; margin-bottom: 30px; font-size: 1.1rem;">
+                Powered by <strong>EDY SAHPUTRA</strong>
+            </p>
+
+            <a href="https://wa.me/6282367136420?text=Halo%20Admin,%20saya%20tertarik%20buat%20aplikasi" class="btn-glow">
+                MULAI PROYEK <i class="fas fa-arrow-right" style="margin-left:10px;"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Features Strip -->
+    <div class="features-strip">
+        <div class="feature-item" data-aos="fade-up" data-aos-delay="100">
+            <i class="fas fa-bolt"></i> <span>CEPAT</span>
+        </div>
+        <div class="feature-item" data-aos="fade-up" data-aos-delay="200">
+            <i class="fas fa-shield-alt"></i> <span>AMAN</span>
+        </div>
+        <div class="feature-item" data-aos="fade-up" data-aos-delay="300">
+            <i class="fas fa-coins"></i> <span>TERJANGKAU</span>
+        </div>
+    </div>
+
+    <!-- Services -->
+    <section class="section">
+        <div class="section-header" data-aos="fade-up">
+            <h2>KEMAMPUAN <span style="color:var(--neon-green)">SYSTEM</span> KAMI</h2>
+            <p style="color:#888;">Kami membangun ekosistem digital untuk bisnis Anda</p>
+        </div>
+
+        <div class="grid-container">
+            <!-- Android -->
+            <div class="service-card" data-aos="flip-left" data-aos-duration="1000">
+                <div class="icon-box"><i class="fab fa-android"></i></div>
+                <h3>Android Apps</h3>
+                <p>Aplikasi mobile native yang ringan, responsif, dan siap Pakai. Cocok untuk toko online, Toko Offline, atau company profile.</p>
+                <span class="badge">Kotlin</span> <span class="badge">Flutter</span>
+            </div>
+
+            <!-- Windows -->
+            <div class="service-card" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="200">
+                <div class="icon-box"><i class="fab fa-windows"></i></div>
+                <h3>Windows Software</h3>
+                <p>Software Desktop Kasir, Inventory, Sekolah, atau Toko. Stabil dan kompatibel dengan Windows 10 & 11.</p>
+                <span class="badge">.NET</span> <span class="badge">C#</span>
+            </div>
+
+            <!-- Hybrid (Online/Offline) -->
+            <div class="service-card" data-aos="flip-left" data-aos-duration="1000" data-aos-delay="400">
+                <div class="icon-box"><i class="fas fa-network-wired"></i></div>
+                <h3>Online & Offline</h3>
+                <p>Butuh aplikasi yang tetap jalan saat internet mati? Kami ahlinya membuat sistem sinkronisasi data Online & Offline.</p>
+                <span class="badge">Localhost</span> <span class="badge">Cloud</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">EDGhost</div>
+        <span class="shop-name">PART OF SG KOMPUTER</span>
+        
+        <p style="color: #666; margin-bottom: 30px; max-width: 500px; margin-left: auto; margin-right: auto;">
+            Mewujudkan ide liar Anda menjadi kode program yang solid. Melayani seluruh Indonesia.
+        </p>
+
+        <a href="https://wa.me/6282367136420" class="contact-btn">
+            <i class="fab fa-whatsapp"></i> Chat WhatsApp: 0823-6713-6420
+        </a>
+
+        <div style="margin-top: 40px; color: #444; font-size: 0.8rem;">
+            &copy; 2025 EDGhost. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Init Animation on Scroll
+        AOS.init({
+            once: true,
+            offset: 100
+        });
+
+        // Typewriter Effect Logic
+        const textElement = document.getElementById('typewriter');
+        const phrases = [
+            "Android Applications...",
+            "Windows Software...",
+            "Online Systems...",
+            "Offline Solutions..."
+        ];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function type() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                textElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                textElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                isDeleting = true;
+                setTimeout(type, 2000); // Wait before deleting
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                setTimeout(type, 500); // Wait before typing next
+            } else {
+                setTimeout(type, isDeleting ? 50 : 100);
+            }
+        }
+
+        // Start Typing
+        document.addEventListener('DOMContentLoaded', type);
+    </script>
+</body>
+</html>
