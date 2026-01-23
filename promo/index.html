@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katalog Promo SG KOMPUTER</title>
+    <style>
+        /* CSS DIAMBIL DARI KONFIGURASI COMMON_STYLE ANDA */
+        * { box-sizing: border-box; font-family: sans-serif; }
+        body { background: #f5f5f5; margin: 0; padding: 15px; }
+        .container { max-width: 500px; margin: auto; }
+        .card { background: white; border-radius: 15px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        
+        /* AGAR GAMBAR TIDAK TERPOTONG */
+        .img-box { width: 100%; height: 250px; background: white; display: flex; align-items: center; justify-content: center; padding: 5px; }
+        .img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        
+        .info { padding: 20px; text-align: left; }
+        .title { font-size: 1.2rem; font-weight: bold; margin-bottom: 5px; }
+        
+        /* HARGA CORET & HARGA BARU */
+        .price-row { margin: 10px 0; }
+        .old-price { text-decoration: line-through; color: #888; font-size: 0.9rem; margin-right: 10px; }
+        .badge { background: #ff4747; color: white; padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
+        .new-price { color: #ee4d2d; font-size: 1.6rem; font-weight: bold; display: block; margin-top: 5px; }
+        .save-tag { color: #26aa99; font-size: 0.85rem; font-weight: bold; }
+
+        .btn { display: block; width: 100%; padding: 12px; text-align: center; text-decoration: none; 
+               border-radius: 8px; margin-top: 10px; font-weight: bold; border: none; cursor: pointer; }
+        .btn-detail { background: #e9ecef; color: #495057; }
+        .btn-buy { background: #ee4d2d; color: white; margin-top: 10px; }
+        
+        .hidden { display: none; }
+        .back-link { display: inline-block; margin-bottom: 10px; color: #ee4d2d; text-decoration: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="index-page">
+            <h1 style="text-align:center">🔥 Katalog Promo 🔥</h1>
+            <div id="product-list"></div>
+        </div>
+
+        <div id="detail-page" class="hidden">
+            <span class="back-link" onclick="showIndex()">← Kembali</span>
+            <div id="detail-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // DATA PRODUK DARI app.py
+        const laptops = {
+            "1": {
+                "nama": "Laptop Acer Aspire Lite14", 
+                "harga_asli": 5300000, 
+                "diskon_persen": 4, 
+                "img": "static/laptop1.jpg", // Pastikan folder static ada atau ganti ke link URL
+                "spek": "Prosesor: Intel N150 (4 core, efisien daya),RAM: 8GB DDR5.Penyimpanan: 256GB NVMe SSD,Layar: 14.0 inci, WUXGA (1920x1200), IPS, Acer ComfyView (anti-silau).Grafis: Intel Graphics (UHD).Sistem Operasi: Windows 11 Home + Office Home & Student 2024 (atau Microsoft 365 Basic).Fitur Lain: Webcam FHD, Speaker stereo, port USB-C (full function), HDMI, desain tipis & ringan, tersedia dalam warna-warna seperti Biru, Pink, Silver. Garansi 1 Tahun Resmi",
+                "deskripsi": "untuk pelajar dan kerja."
+            }
+        };
+
+        // FUNGSI FORMAT RUPIAH
+        function formatRp(nilai) {
+            return "Rp " + nilai.toLocaleString('id-ID').replace(/,/g, '.');
+        }
+
+        // FUNGSI MENAMPILKAN HALAMAN UTAMA
+        function renderProducts() {
+            const list = document.getElementById('product-list');
+            list.innerHTML = "";
+            
+            for (let id in laptops) {
+                const item = laptops[id];
+                const potongan = item.harga_asli * (item.diskon_persen / 100);
+                const hargaFinal = item.harga_asli - potongan;
+
+                list.innerHTML += `
+                    <div class="card">
+                        <div class="img-box"><img src="${item.img}" alt="${item.nama}"></div>
+                        <div class="info">
+                            <div class="title">${item.nama}</div>
+                            <div class="price-row">
+                                <span class="old-price">${formatRp(item.harga_asli)}</span>
+                                <span class="badge">${item.diskon_persen}% OFF</span>
+                                <span class="new-price">${formatRp(hargaFinal)}</span>
+                                <span class="save-tag">Hemat ${formatRp(potongan)}</span>
+                            </div>
+                            <button onclick="showDetail('${id}')" class="btn btn-detail">Detail Produk</button>
+                            <a href="https://wa.me/6282367136420" class="btn btn-buy">Beli Sekarang</a>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // FUNGSI NAVIGASI KE DETAIL
+        function showDetail(id) {
+            const item = laptops[id];
+            const potongan = item.harga_asli * (item.diskon_persen / 100);
+            const hargaFinal = item.harga_asli - potongan;
+
+            document.getElementById('index-page').classList.add('hidden');
+            document.getElementById('detail-page').classList.remove('hidden');
+
+            document.getElementById('detail-content').innerHTML = `
+                <div class="card">
+                    <div class="img-box"><img src="${item.img}"></div>
+                    <div class="info">
+                        <h2>${item.nama}</h2>
+                        <div class="new-price" style="font-size:2rem;">${formatRp(hargaFinal)}</div>
+                        <p><b>Spesifikasi:</b><br>${item.spek}</p>
+                        <p><b>Deskripsi:</b><br>${item.deskripsi}</p>
+                        <a href="https://wa.me/6282367136420" class="btn btn-buy">Hubungi Penjual</a>
+                    </div>
+                </div>
+            `;
+            window.scrollTo(0,0);
+        }
+
+        function showIndex() {
+            document.getElementById('index-page').classList.remove('hidden');
+            document.getElementById('detail-page').classList.add('hidden');
+        }
+
+        // Jalankan saat pertama kali buka
+        renderProducts();
+    </script>
+</body>
+</html>
